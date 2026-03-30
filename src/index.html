@@ -25,10 +25,15 @@
         border: 3px dashed #ccc;
         margin: 1rem;
         border-radius: 8px;
-        transition: border-color 0.2s;
+        transition:
+          border-color 0.2s,
+          background 0.2s;
+        cursor: pointer;
       }
+      #drop:hover,
       #drop.over {
         border-color: #646cff;
+        background: #f5f5ff;
       }
       #status {
         padding: 0 1rem;
@@ -45,7 +50,11 @@
     </style>
   </head>
   <body>
-    <div id="drop">Drop a zip file here</div>
+    <input type="file" id="file-input" accept=".zip" hidden />
+    <div id="drop" role="button" tabindex="0">
+      <div>Drag &amp; drop or <span style="color: #646cff">click to upload</span></div>
+      <div style="font-size: 0.8rem; color: #999; margin-top: 0.4rem">.zip files only</div>
+    </div>
     <div id="status"></div>
     <iframe id="viewer" hidden></iframe>
 
@@ -67,17 +76,9 @@
         $status.textContent = "Service workers not supported.";
       }
 
-      // Drag and drop
-      $drop.addEventListener("dragover", (e) => {
-        e.preventDefault();
-        $drop.classList.add("over");
-      });
-      $drop.addEventListener("dragleave", () => $drop.classList.remove("over"));
-      $drop.addEventListener("drop", async (e) => {
-        e.preventDefault();
-        $drop.classList.remove("over");
+      const $fileInput = document.getElementById("file-input");
 
-        const file = e.dataTransfer.files[0];
+      async function handleFile(file) {
         if (!file) return;
 
         $status.textContent = `Unzipping ${file.name}...`;
@@ -141,6 +142,27 @@
         $drop.hidden = true;
         $viewer.hidden = false;
         $viewer.src = PREFIX;
+      }
+
+      // Drag and drop
+      $drop.addEventListener("dragover", (e) => {
+        e.preventDefault();
+        $drop.classList.add("over");
+      });
+      $drop.addEventListener("dragleave", () => $drop.classList.remove("over"));
+      $drop.addEventListener("drop", async (e) => {
+        e.preventDefault();
+        $drop.classList.remove("over");
+        handleFile(e.dataTransfer.files[0]);
+      });
+
+      // File input
+      $fileInput.addEventListener("change", () => handleFile($fileInput.files[0]));
+
+      // Click / keyboard to open picker
+      $drop.addEventListener("click", () => $fileInput.click());
+      $drop.addEventListener("keydown", (e) => {
+        if (e.key === "Enter" || e.key === " ") $fileInput.click();
       });
     </script>
   </body>

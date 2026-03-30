@@ -86,6 +86,14 @@
         >example</a
       >
     </div>
+    <div
+      id="fetch-error"
+      hidden
+      style="text-align: center; font-size: 0.85rem; color: #c00; margin-top: 1rem"
+    >
+      Could not fetch <a id="fetch-error-link" href="" style="color: #646cff"></a> directly —
+      download it and drop the file here.
+    </div>
     <iframe id="viewer" hidden></iframe>
 
     <script type="module">
@@ -117,7 +125,21 @@
 
       // Auto-load from ?url= param
       const paramUrl = new URLSearchParams(location.search).get("url");
-      if (paramUrl) handleUrl(paramUrl);
+      if (paramUrl) {
+        try {
+          await handleUrl(paramUrl);
+        } catch (err) {
+          const { hostname, pathname } = new URL(paramUrl);
+          const lastSegment = pathname.split("/").filter(Boolean).pop() || "";
+          const filename = lastSegment ? `${hostname}/\u2026/${lastSegment}` : hostname;
+          const $fetchError = document.getElementById("fetch-error");
+          const $fetchErrorLink = document.getElementById("fetch-error-link");
+          $fetchErrorLink.href = paramUrl;
+          $fetchErrorLink.textContent = filename;
+          $fetchError.hidden = false;
+          setStatus(`Fetch failed: ${err.message}`);
+        }
+      }
 
       async function handleUrl(url) {
         setStatus(`Fetching ${new URL(url).pathname.split("/").pop()}...`);
@@ -193,6 +215,7 @@
         setStatus(`Cached ${fileCount} files. Loading...`);
         $drop.hidden = true;
         $example.hidden = true;
+        document.getElementById("fetch-error").hidden = true;
         $viewer.hidden = false;
         $viewer.src = PREFIX;
         $viewer.onload = () => setStatus(`Cached ${fileCount} files.`);

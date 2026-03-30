@@ -22,7 +22,8 @@
       #drop {
         padding: 3rem;
         text-align: center;
-        border: 3px dashed #ccc;
+        border: 3px dashed #b2d9c2;
+        background: #f7fcf9;
         margin: 0.5rem 1rem;
         border-radius: 8px;
         transition:
@@ -32,8 +33,8 @@
       }
       #drop:hover,
       #drop.over {
-        border-color: #646cff;
-        background: #f5f5ff;
+        border-color: #008039;
+        background: #f0faf4;
       }
 
       iframe {
@@ -72,7 +73,7 @@
     </div>
     <input type="file" id="file-input" accept=".zip" hidden />
     <div id="drop" role="button" tabindex="0">
-      <div>Drag &amp; drop or <span style="color: #646cff">click to upload</span></div>
+      <div>Drag &amp; drop or <span style="color: #008039">click to upload</span></div>
       <div style="font-size: 0.8rem; color: #999; margin-top: 0.4rem">.zip files only</div>
     </div>
     <div
@@ -82,7 +83,7 @@
       or try an
       <a
         href="?url=https://cdn.jsdelivr.net/gh/hi-ogawa/zipview@main/docs/assets/vitest-html-reporter.zip"
-        style="color: #646cff"
+        style="color: #008039"
         >example</a
       >
     </div>
@@ -136,7 +137,7 @@
           $fetchError.innerHTML = `
             <div>${message}</div>
             <div style="margin-top:0.3rem;color:#666">
-              Try opening <a href="${paramUrl}" style="color:#646cff">${displayUrl}</a> directly in your browser, download the file, and drop it here.
+              Try opening <a href="${paramUrl}" style="color:#008039">${displayUrl}</a> directly in your browser, download the file, and drop it here.
             </div>`;
           $fetchError.hidden = false;
           setStatus(`Fetch Error: ${message}`);

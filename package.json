@@ -1,4 +1,6 @@
 {
+  "name": "@vitest/viewer",
+  "private": true,
   "type": "module",
   "scripts": {
     "prepare": "vp config",

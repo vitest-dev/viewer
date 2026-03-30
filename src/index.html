@@ -74,15 +74,17 @@
     <div id="drop" role="button" tabindex="0">
       <div>Drag &amp; drop or <span style="color: #646cff">click to upload</span></div>
       <div style="font-size: 0.8rem; color: #999; margin-top: 0.4rem">.zip files only</div>
-      <div style="font-size: 0.8rem; color: #999; margin-top: 0.8rem">
-        or try an
-        <a
-          href="?url=https://cdn.jsdelivr.net/gh/hi-ogawa/zipview@main/docs/assets/vitest-html-reporter.zip"
-          style="color: #646cff"
-          onclick="event.stopPropagation()"
-          >example</a
-        >
-      </div>
+    </div>
+    <div
+      id="example"
+      style="text-align: center; font-size: 0.8rem; color: #999; margin-top: 0.5rem"
+    >
+      or try an
+      <a
+        href="?url=https://cdn.jsdelivr.net/gh/hi-ogawa/zipview@main/docs/assets/vitest-html-reporter.zip"
+        style="color: #646cff"
+        >example</a
+      >
     </div>
     <iframe id="viewer" hidden></iframe>
 
@@ -111,6 +113,7 @@
       }
 
       const $fileInput = document.getElementById("file-input");
+      const $example = document.getElementById("example");
 
       // Auto-load from ?url= param
       const paramUrl = new URLSearchParams(location.search).get("url");
@@ -189,6 +192,7 @@
 
         setStatus(`Cached ${fileCount} files. Loading...`);
         $drop.hidden = true;
+        $example.hidden = true;
         $viewer.hidden = false;
         $viewer.src = PREFIX;
       }

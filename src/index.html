@@ -23,7 +23,7 @@
         padding: 3rem;
         text-align: center;
         border: 3px dashed #ccc;
-        margin: 1rem;
+        margin: 0.5rem 1rem;
         border-radius: 8px;
         transition:
           border-color 0.2s,
@@ -35,11 +35,7 @@
         border-color: #646cff;
         background: #f5f5ff;
       }
-      #status {
-        padding: 0 1rem;
-        font-size: 0.9rem;
-        color: #666;
-      }
+
       iframe {
         flex: 1;
         border: none;
@@ -50,12 +46,31 @@
     </style>
   </head>
   <body>
+    <div
+      style="
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        gap: 1rem;
+        padding: 0.5rem 1rem 0 1rem;
+      "
+    >
+      <div id="status" style="font-size: 0.8rem; color: #999; display: none">
+        Status: <span id="status-msg"></span>
+      </div>
+      <a
+        href="https://github.com/hi-ogawa/zipview"
+        style="font-size: 0.8rem; color: #999; text-decoration: none"
+        target="_blank"
+        rel="noopener"
+        >Source code</a
+      >
+    </div>
     <input type="file" id="file-input" accept=".zip" hidden />
     <div id="drop" role="button" tabindex="0">
       <div>Drag &amp; drop or <span style="color: #646cff">click to upload</span></div>
       <div style="font-size: 0.8rem; color: #999; margin-top: 0.4rem">.zip files only</div>
     </div>
-    <div id="status"></div>
     <iframe id="viewer" hidden></iframe>
 
     <script type="module">
@@ -65,15 +80,21 @@
       const PREFIX = "/zipview/site/";
       const $drop = document.getElementById("drop");
       const $status = document.getElementById("status");
+      const $statusMsg = document.getElementById("status-msg");
       const $viewer = document.getElementById("viewer");
+
+      function setStatus(msg) {
+        $statusMsg.textContent = msg;
+        $status.style.display = "";
+      }
 
       // Register SW
       if ("serviceWorker" in navigator) {
         await navigator.serviceWorker.register("./sw.js");
         await navigator.serviceWorker.ready;
-        $status.textContent = "Service worker ready.";
+        setStatus("Service worker ready.");
       } else {
-        $status.textContent = "Service workers not supported.";
+        setStatus("Service workers not supported.");
       }
 
       const $fileInput = document.getElementById("file-input");
@@ -81,7 +102,7 @@
       async function handleFile(file) {
         if (!file) return;
 
-        $status.textContent = `Unzipping ${file.name}...`;
+        setStatus(`Unzipping ${file.name}...`);
         const buf = await file.arrayBuffer();
         const entries = unzipSync(new Uint8Array(buf));
 
@@ -138,7 +159,7 @@
           fileCount++;
         }
 
-        $status.textContent = `Cached ${fileCount} files. Loading...`;
+        setStatus(`Cached ${fileCount} files. Loading...`);
         $drop.hidden = true;
         $viewer.hidden = false;
         $viewer.src = PREFIX;

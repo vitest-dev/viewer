@@ -222,14 +222,20 @@
       }
 
       function App() {
-        const [statusMsg, setStatusMsg] = useState(null);
+        const [statusMsg, setStatusMsg] = useState("Registering service worker...");
         const [loaded, setLoaded] = useState(false);
         const [fileCount, setFileCount] = useState(0);
         const [fetchError, setFetchError] = useState(null);
 
         async function handleBuffer(buf, name) {
           setStatusMsg(`Unzipping ${name}...`);
-          const count = await cacheZip(buf);
+          let count;
+          try {
+            count = await cacheZip(buf);
+          } catch (err) {
+            setStatusMsg(`Zip Error: ${err.message}`);
+            return;
+          }
           setFileCount(count);
           setStatusMsg(`Cached ${count} files. Loading...`);
           setLoaded(true);

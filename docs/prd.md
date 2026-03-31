@@ -14,8 +14,13 @@
   - add try/catch around unzipSync for corrupt/non-zip files
   - consider async unzip for large zips (fflate has async `unzip`)
   - SW scope may break under subpath hosting
-- [ ] "Load another zip" button — currently the drop zone hides permanently after first load, no way to swap without refresh
+  - fix XSS: fetch error display uses innerHTML with unsanitized err.message and ?url= param
+  - parallelize cache.put() with Promise.all (currently sequential per-file)
+  - status bar never hides — should reset to hidden when idle
+  - SW ready blocks event listener registration — make non-blocking, show "registering…" status instead
+
+## Backlog
+
 - [ ] Persist last zip in IndexedDB so refresh doesn't lose state
-- [ ] Multi-zip / tabbed view — drop multiple zips, or auto-detect multiple dirs in one zip
-- [ ] Publish as `npx zipview`
-- [ ] Self-bootstrapping: embed SW in the static site output itself so the zip is directly openable
+- [ ] Provide CLI / API to package SPA into "index.html + sw.js" bundle
+- [ ] Integrate as Vitest html reporter two files mode

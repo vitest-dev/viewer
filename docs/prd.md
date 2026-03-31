@@ -16,7 +16,7 @@
 - [ ] refactor: share constants (CACHE_NAME, PREFIX) between index.html and sw.js
 - [ ] refactor: extract `<style>` block from index.html to style.css
 - [ ] refactor: subpath hosting — PREFIX is hardcoded to `/zipview/site/`; real fix derives it dynamically from location.pathname (also affects sw.js scope and startsWith check)
-- [ ] setup e2e
+- [x] setup e2e
 
 ## Backlog
 

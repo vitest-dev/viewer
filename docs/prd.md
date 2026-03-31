@@ -18,6 +18,7 @@
   - parallelize cache.put() with Promise.all (currently sequential per-file)
   - status bar never hides — should reset to hidden when idle
   - SW ready blocks event listener registration — make non-blocking, show "registering…" status instead
+- [ ] setup e2e
 
 ## Backlog
 

@@ -15,7 +15,7 @@
 - [ ] refactor: SW ready blocks event listeners — make non-blocking, show "registering…" status
 - [ ] refactor: share constants (CACHE_NAME, PREFIX) between index.html and sw.js
 - [ ] refactor: extract `<style>` block from index.html to style.css
-- [ ] refactor: consider async unzip for large zips (fflate has async `unzip`)
+- [x] refactor: consider async unzip for large zips (fflate has async `unzip`)
 - [ ] refactor: subpath hosting — PREFIX is hardcoded to `/zipview/site/`; real fix derives it dynamically from location.pathname (also affects sw.js scope and startsWith check)
 - [ ] setup e2e
 

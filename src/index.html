@@ -48,7 +48,7 @@
     <script type="module">
       import { h, render, Fragment } from "https://esm.sh/preact@10";
       import { useState, useEffect, useRef } from "https://esm.sh/preact@10/hooks";
-      import { unzipSync } from "https://esm.sh/fflate@0.8.2";
+      import { unzip } from "https://esm.sh/fflate@0.8.2";
 
       const CACHE_NAME = "zipview-v1";
       const PREFIX = "/zipview/site/";
@@ -79,7 +79,9 @@
       }
 
       async function cacheZip(buf) {
-        const entries = unzipSync(new Uint8Array(buf));
+        const entries = await new Promise((resolve, reject) =>
+          unzip(new Uint8Array(buf), (err, data) => (err ? reject(err) : resolve(data))),
+        );
 
         const paths = Object.keys(entries);
         let rootPrefix = "";

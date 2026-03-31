@@ -7,17 +7,16 @@
 - [x] chore: add example zip from vitest html artifact
 - [x] `?url=` param for public URLs (GitHub artifact download requires auth, but pre-signed Azure blob URLs and S3 buckets work)
 - [x] File picker button (not just drag-and-drop) — mobile/accessibility
-- [ ] refactor: rework code
-  - deduplicate fflate import (script tag on line 6 is dead weight, only the ES module import is needed)
-  - share constants (CACHE_NAME, PREFIX) between index.html and sw.js instead of duplicating
-  - move MIME map to sw.js (it's serving the files, not the main thread)
-  - add try/catch around unzipSync for corrupt/non-zip files
-  - consider async unzip for large zips (fflate has async `unzip`)
-  - SW scope may break under subpath hosting
-  - fix XSS: fetch error display uses innerHTML with unsanitized err.message and ?url= param
-  - parallelize cache.put() with Promise.all (currently sequential per-file)
-  - status bar never hides — should reset to hidden when idle
-  - SW ready blocks event listener registration — make non-blocking, show "registering…" status instead
+- [x] refactor: remove dead fflate script tag, use single ESM import
+- [x] refactor: fix XSS in fetch error display (Preact escapes by default)
+- [x] refactor: parallelize cache.put() with Promise.all
+- [ ] refactor: add try/catch around unzipSync for corrupt/non-zip files
+- [ ] refactor: status bar never hides — reset to hidden when idle
+- [ ] refactor: SW ready blocks event listeners — make non-blocking, show "registering…" status
+- [ ] refactor: share constants (CACHE_NAME, PREFIX) between index.html and sw.js
+- [ ] refactor: extract `<style>` block from index.html to style.css
+- [ ] refactor: consider async unzip for large zips (fflate has async `unzip`)
+- [ ] refactor: subpath hosting — PREFIX is hardcoded to `/zipview/site/`; real fix derives it dynamically from location.pathname (also affects sw.js scope and startsWith check)
 - [ ] setup e2e
 
 ## Backlog
